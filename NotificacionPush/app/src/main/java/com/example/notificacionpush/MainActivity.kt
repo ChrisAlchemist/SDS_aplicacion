@@ -11,8 +11,7 @@ import android.support.annotation.RequiresApi
 import android.support.v7.app.AppCompatActivity
 import android.widget.RemoteViews
 import android.widget.Toast
-import com.example.notificacionpush.api.RetrofitClient
-import com.example.notificacionpush.models.LoginResponse
+
 import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
 import retrofit2.Response
@@ -60,17 +59,7 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            RetrofitClient.instance.userLogin("1")
-                .enqueue(object: retrofit2.Callback<LoginResponse> {
-                    override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                        Toast.makeText(applicationContext, t.message, Toast.LENGTH_LONG).show()
-                    }
 
-                    override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
-                        Toast.makeText(applicationContext, response.body()?.total, Toast.LENGTH_LONG).show()
-                    }
-
-                })
 
             //Notificacion
             contentView.setTextViewText(R.id.tv_title, "Software Development System")

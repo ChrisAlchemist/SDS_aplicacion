@@ -8,17 +8,20 @@
         android:background="@drawable/login_background"
         tools:context=".InicioActivity">
 
-    <ScrollView
+
+    <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
 
     >
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
 
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorAccent"
-        >
+    >
         <LinearLayout
 
                 android:layout_width="match_parent"
@@ -26,6 +29,7 @@
                 android:orientation="vertical"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
+
         >
             <ImageView
                     android:layout_width="83dp"
@@ -53,7 +57,7 @@
 
                 />
                 <TextView
-
+                        android:id="@+id/tv_limpiar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Limpiar"
@@ -67,9 +71,9 @@
 
 
             <EditText
-
+                    android:id="@+id/et_software"
                     android:layout_marginTop="5dp"
-                    android:drawableStart="@drawable/user_icon_o"
+                    android:drawableStart="@drawable/sofware"
                     android:hint="Software"
                     android:textSize="15dp"
                     android:textColorHint="@color/colorHint"
@@ -82,9 +86,9 @@
             />
 
             <EditText
-
+                    android:id="@+id/et_ubicacion"
                     android:layout_marginTop="5dp"
-                    android:drawableStart="@drawable/pass_icon_o"
+                    android:drawableStart="@drawable/ubicacion"
                     android:hint="Ciudad"
                     android:textSize="15dp"
                     android:textColorHint="@color/colorHint"
@@ -97,10 +101,8 @@
             />
 
 
-
-
             <Button
-
+                    android:id="@+id/btn_buscar"
                     android:layout_width="match_parent"
                     android:layout_height="35dp"
                     android:background="@drawable/buscar_color"
@@ -112,13 +114,16 @@
             />
 
 
-
-
         </LinearLayout>
-        </LinearLayout>
+    </LinearLayout>
+        <ListView
+                android:id="@+id/usuarios_lista"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+        >
 
-
-    </ScrollView>
+        </ListView>
+    </LinearLayout>
 
 
 </RelativeLayout>
