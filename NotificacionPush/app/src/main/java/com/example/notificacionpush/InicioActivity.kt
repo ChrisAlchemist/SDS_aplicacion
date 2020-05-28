@@ -1,26 +1,32 @@
 package com.example.notificacionpush
 
+import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.example.jsonandhttprequest.ListAdapter
-//import com.example.jsonandhttprequest.President
-import com.example.jsonandhttprequest.Usuario
+import com.example.jsonandhttprequest.Resultado
 import kotlinx.android.synthetic.main.activity_inicio.*
-import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONArray
+import org.json.JSONObject
 import java.net.HttpURLConnection
 import java.net.URL
-import java.util.*
 import kotlin.collections.ArrayList
+import android.inputmethodservice.InputMethodService
+
 
 class InicioActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_inicio)
-
+        val objetoIntent: Intent = intent
+        val nombreUsuario = objetoIntent.getStringExtra("Nombre")
+        tv_usuario_nombre.text = "$nombreUsuario"
 
 
         tv_limpiar.setOnClickListener {
@@ -39,10 +45,14 @@ class InicioActivity : AppCompatActivity() {
             }
             //val url ="https://mysafeinfo.com/api/data?list=presidents&format=json" //+"&fullname=james madison"
             //val url ="https://jsonplaceholder.typicode.com/users" + "?username=" + software
-            val url ="https://api.jikan.moe/v3/search/anime"+"?q="+software+"&limit=1"
+            val url ="https://api.jikan.moe/v3/search/anime"+"?q="+software+"&limit=16"
             AsyncTaskHandleJson().execute(url)
+
+
         }
 
+        //val url ="https://api.jikan.moe/v3/search/anime?q=naruto&limit=16"
+        //AsyncTaskHandleJson().execute(url)
 
     }
 
@@ -68,8 +78,10 @@ class InicioActivity : AppCompatActivity() {
     }
 
     private fun handleJson(jsonString: String?) {
-        val jsonArray = JSONArray(jsonString)
-        val usuarios = ArrayList<Usuario>()
+        //val jsonArray = JSONArray(jsonString)
+        //val jsonArray = JSONObject(jsonString)
+        val jsonArray = JSONArray(JSONObject(jsonString).getString("results"))
+        val usuarios = ArrayList<Resultado>()
 
         if(jsonArray.length()<=0){
             usuarios_lista.adapter = null
@@ -80,25 +92,25 @@ class InicioActivity : AppCompatActivity() {
         var x= 0
         while (x<jsonArray.length()){
             val jsonObject = jsonArray.getJSONObject(x)
-            val calle = jsonObject.getJSONObject("address").getString("street")
-            //val address = Address(street = calle)
+
+            val id = jsonObject.getInt("mal_id")
+            val url = jsonObject.getString("url")
+            val image = jsonObject.getString("image_url")
+            val titulo = jsonObject.getString("title")
 
 
             usuarios.add(
-                Usuario(
-                    jsonObject.getInt("id"),
-                    jsonObject.getString("name"),
-                    jsonObject.getString("username"),
-                    jsonObject.getString("email"),
-                    Address(street = calle)
+                Resultado(
+                    Resultados(mal_id=id,url=url, image_url=image, title=titulo)
 
                 )
             )
             x++
         }
-
             val adapter = ListAdapter(this,usuarios)
             usuarios_lista.adapter = adapter
-
     }
+
+
+
 }

@@ -12,12 +12,11 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true">
+
         <activity
                 android:name=".InicioActivity"
                 android:theme="@style/LoginPage"
-                android:windowSoftInputMode="adjustResize"
-        >
-
+                android:windowSoftInputMode="adjustResize">
         </activity>
         <activity
                 android:name=".Registrar"
@@ -26,8 +25,10 @@
         </activity>
         <activity
                 android:name=".MainActivity"
-                android:theme="@style/LoginPage"
-                android:windowSoftInputMode="adjustResize">
+                android:theme="@style/SplashTheme"
+                android:windowSoftInputMode="adjustResize"
+        >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
