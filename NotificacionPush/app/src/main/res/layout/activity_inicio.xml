@@ -5,7 +5,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/login_background"
+        android:background="@color/colorPrimary"
         tools:context=".InicioActivity">
 
 
@@ -19,7 +19,7 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorAccent"
+            android:background="@color/colorPrimaryDark"
 
     >
         <LinearLayout
@@ -34,7 +34,7 @@
             <ImageView
                     android:layout_width="83dp"
                     android:layout_height="73dp"
-                    android:src="@drawable/sds_logo"
+                    android:src="@drawable/sds_l_w"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="-11dp"
             />
@@ -53,7 +53,7 @@
                         android:padding="5dp"
                         android:layout_gravity="start"
                         android:textSize="20dp"
-                        android:textColor="@color/colorPrimaryDark"
+
 
                 />
                 <TextView
@@ -112,7 +112,7 @@
                     android:id="@+id/btn_buscar"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    android:background="@drawable/buscar_color"
+                    android:background="@drawable/button_background"
                     android:text="Buscar"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="15dp"
@@ -125,13 +125,40 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-        <ListView
-                android:id="@+id/usuarios_lista"
+
+        <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
         >
 
-        </ListView>
+
+            <ProgressBar
+                    android:id="@+id/pb_Cargando"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:visibility="gone"
+
+            />
+            <ListView
+                    android:id="@+id/usuarios_lista"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+            >
+            </ListView>
+
+        </android.support.constraint.ConstraintLayout>
+
+
+
     </LinearLayout>
 
 

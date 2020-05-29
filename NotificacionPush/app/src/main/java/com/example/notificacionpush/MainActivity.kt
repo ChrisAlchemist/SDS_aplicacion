@@ -8,8 +8,10 @@ import android.graphics.Color
 import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.support.annotation.RequiresApi
 import android.support.v7.app.AppCompatActivity
+import android.widget.ProgressBar
 import android.widget.RemoteViews
 import android.widget.Toast
 import com.example.jsonandhttprequest.ListAdapter
@@ -34,26 +36,17 @@ class MainActivity : AppCompatActivity() {
         //Thread.sleep(1000)
         setTheme(R.style.Theme_AppCompat_NoActionBar)
 
-        lateinit var notificationManager: NotificationManager
-        lateinit var notificationChannel: NotificationChannel
-        lateinit var builder :Notification.Builder
-        val channelId = "com.example.notificacionpush"
-        val description = "Test notification"
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
         tv_registrar.setOnClickListener{
             startActivity(Intent(this@MainActivity, Registrar::class.java) )
-
         }
 
         btn_notify.setOnClickListener{
-            //var intent = Intent(this, LauncherActivity::class.java)
-            var pendingIntent  = PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_UPDATE_CURRENT)
-            var contentView = RemoteViews(packageName,R.layout.notification_layaut)
+            var progresDialog = ProgressDialog(this)
+
+
             var usuario = et_usuario.text.toString().trim()
             var password = et_pass.text.toString().trim()
 
@@ -68,46 +61,12 @@ class MainActivity : AppCompatActivity() {
                 et_pass.requestFocus()
                 return@setOnClickListener
             }
+            progresDialog.setMessage("Autentificando..")
+            progresDialog.setCancelable(false)
+            progresDialog.show()
 
-
-
-            //Notificacion
-            contentView.setTextViewText(R.id.tv_title, "Software Development System")
-            contentView.setTextViewText(R.id.tv_content, "$usuario, bienvenido a SDS")
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                notificationChannel = NotificationChannel (channelId,description,NotificationManager.IMPORTANCE_HIGH)
-                notificationChannel.enableLights(true)
-                notificationChannel.lightColor = Color.GREEN
-                notificationChannel.enableVibration(true)
-                notificationManager.createNotificationChannel(notificationChannel)
-
-                builder = Notification.Builder(this, channelId)
-                    .setContent(contentView)
-                    .setSmallIcon(R.mipmap.ic_launcher_round)
-                    .setLargeIcon(BitmapFactory.decodeResource(this.resources,R.mipmap.ic_launcher))
-                    .setContentIntent(pendingIntent)
-            }
-/*
-            else{
-                builder = Notification.Builder(this)
-                    .setContent(contentView)
-                    .setSmallIcon(R.mipmap.ic_launcher_round)
-                    .setLargeIcon(BitmapFactory.decodeResource(this.resources,R.mipmap.ic_launcher))
-                    .setContentIntent(pendingIntent)
-            }*/
-
-            notificationManager.notify(1234,builder.build())
-            //val url ="https://mysafeinfo.com/api/data?list=presidents&format=json" //+"&fullname=james madison"
             val url ="https://jsonplaceholder.typicode.com/users" + "?username=" + et_usuario.text
-            //val url ="https://api.jikan.moe/v3/search/anime"+"?q="+software+"&limit=16"
             AsyncTaskHandleJson().execute(url)
-
-            /*
-            val intent: Intent = Intent(this@MainActivity, InicioActivity::class.java)
-            intent.putExtra("Nombre", usuario)
-            startActivity(intent)
-            finish()*/
 
         }
     }
@@ -156,17 +115,16 @@ class MainActivity : AppCompatActivity() {
                 )
 
             )
-            Toast.makeText(applicationContext,usuarios[x].username, Toast.LENGTH_LONG).show()
+            //Toast.makeText(applicationContext,usuarios[x].username, Toast.LENGTH_LONG).show()
 
             val intent: Intent = Intent(this@MainActivity, InicioActivity::class.java)
             intent.putExtra("Nombre", usuarios[x].username)
+            //progresDialog.dismiss()
             startActivity(intent)
             finish()
 
             x++
         }
-
-
 
         //val adapter = ListAdapter(this,usuarios)
         //usuarios_lista.adapter = adapter
