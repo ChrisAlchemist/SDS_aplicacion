@@ -117,9 +117,9 @@ class MainActivity : AppCompatActivity() {
             )
             //Toast.makeText(applicationContext,usuarios[x].username, Toast.LENGTH_LONG).show()
 
-            val intent: Intent = Intent(this@MainActivity, InicioActivity::class.java)
+            //val intent: Intent = Intent(this@MainActivity, InicioActivity::class.java)
+            val intent: Intent = Intent(this@MainActivity, Principal_activity::class.java)
             intent.putExtra("Nombre", usuarios[x].username)
-            //progresDialog.dismiss()
             startActivity(intent)
             finish()
 

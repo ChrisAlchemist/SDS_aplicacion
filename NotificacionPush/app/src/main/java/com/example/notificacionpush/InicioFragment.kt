@@ -1,14 +1,16 @@
 package com.example.notificacionpush
 
 import android.annotation.SuppressLint
-import android.app.*
 import android.content.Context
-import android.content.Intent
-import android.graphics.BitmapFactory
-import android.graphics.Color
 import android.os.AsyncTask
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.constraint.ConstraintSet
+import android.support.v4.app.Fragment
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import com.example.jsonandhttprequest.ListAdapter
 import com.example.jsonandhttprequest.Resultado
 import kotlinx.android.synthetic.main.activity_inicio.*
@@ -16,65 +18,34 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.net.HttpURLConnection
 import java.net.URL
-import kotlin.collections.ArrayList
-
-import android.os.Build
-import android.support.annotation.RequiresApi
-import android.support.constraint.ConstraintSet.*
-import android.text.Editable
-import android.text.TextWatcher
-import android.widget.RemoteViews
 
 
-class InicioActivity : AppCompatActivity() {
-
-    lateinit var notificationManager: NotificationManager
-    lateinit var notificationChannel: NotificationChannel
-    lateinit var builder :Notification.Builder
-    val channelId = "com.example.notificacionpush"
-    val description = "Test notification"
-
-    var url =""
-
-    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN)
-    @SuppressLint("WrongConstant")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_inicio)
-        //Seteo de datos de login
-        val objetoIntent: Intent = intent
-        val nombreUsuario = objetoIntent.getStringExtra("Nombre")
-        tv_usuario_nombre.text = "$nombreUsuario"
-        //FIN Seteo de datos de login
-
-        //Notificacion
-        notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-        var pendingIntent  = PendingIntent.getActivity(this,0,intent, PendingIntent.FLAG_UPDATE_CURRENT)
-        var contentView = RemoteViews(packageName,R.layout.notification_layaut)
-
-        contentView.setTextViewText(R.id.tv_title, "Software Development System")
-        contentView.setTextViewText(R.id.tv_content, "$nombreUsuario, bienvenido a SDS")
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            notificationChannel = NotificationChannel (channelId,description, NotificationManager.IMPORTANCE_HIGH)
-            notificationChannel.enableLights(true)
-            notificationChannel.lightColor = Color.GREEN
-            notificationChannel.enableVibration(true)
-            notificationManager.createNotificationChannel(notificationChannel)
-
-            builder = Notification.Builder(this, channelId)
-                .setContent(contentView)
-                .setSmallIcon(R.mipmap.ic_launcher_round)
-                .setLargeIcon(BitmapFactory.decodeResource(this.resources,R.mipmap.ic_launcher))
-                .setContentIntent(pendingIntent)
+class InicioFragment : Fragment() {
+    var thiscontext: Context? = null
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        if (container != null) {
+            thiscontext= container.context
         }
 
-        notificationManager.notify(1234,builder.build())
-        // fin Notificacion
+        return inflater.inflate(R.layout.fragment_inicio, container, false)
+    }
+    var url =""
+
+    @SuppressLint("WrongConstant")
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        //val objetoIntent: Intent = intent
+        //val nombreUsuario = objetoIntent.getStringExtra("Nombre")
+        //tv_usuario_nombre.text = "$nombreUsuario
+        tv_usuario_nombre.text = "nombreUsuario"
+
 
         tv_limpiar.setOnClickListener {
-            pb_Cargando.visibility = GONE
+            pb_Cargando.visibility = ConstraintSet.GONE
             usuarios_lista.adapter = null
             et_software.text =null
             et_ubicacion.text =null
@@ -91,7 +62,7 @@ class InicioActivity : AppCompatActivity() {
                 et_software.requestFocus()
                 return@setOnClickListener
             }
-            pb_Cargando.visibility = VISIBLE
+            pb_Cargando.visibility = ConstraintSet.VISIBLE
             url ="https://api.jikan.moe/v3/search/anime"+"?q="+software+"&limit=16"
             AsyncTaskHandleJson().execute(url)
         }
@@ -112,7 +83,7 @@ class InicioActivity : AppCompatActivity() {
                 // Display the EditText change text on TextView real time
                 if(et_software.text.length>2){
                     usuarios_lista.adapter = null
-                    pb_Cargando.visibility = VISIBLE
+                    pb_Cargando.visibility = ConstraintSet.VISIBLE
                     url ="https://api.jikan.moe/v3/search/anime"+"?q="+et_software.text+"&limit=16"
                     AsyncTaskHandleJson().execute(url)
                 }
@@ -122,7 +93,6 @@ class InicioActivity : AppCompatActivity() {
         })
 
     }
-
 
     inner class AsyncTaskHandleJson : AsyncTask<String, String, String>() {
         override fun doInBackground(vararg url: String?): String {
@@ -152,7 +122,7 @@ class InicioActivity : AppCompatActivity() {
 
         if(jsonArray.length()<=0){
             usuarios_lista.adapter = null
-            pb_Cargando.visibility = GONE
+            pb_Cargando.visibility = ConstraintSet.GONE
             //Toast.makeText(applicationContext,"Ningun elemento encontrado", Toast.LENGTH_LONG).show()
             return
         }
@@ -173,12 +143,12 @@ class InicioActivity : AppCompatActivity() {
             )
             x++
         }
-            val adapter = ListAdapter(this,usuarios)
-            usuarios_lista.adapter = adapter
-            pb_Cargando.visibility = GONE
+
+        //this@MainActivity, Principal_activity::class.java
+        val adapter = ListAdapter(thiscontext,usuarios)
+        usuarios_lista.adapter = adapter
+        pb_Cargando.visibility = ConstraintSet.GONE
 
     }
-
-
-
 }
+
