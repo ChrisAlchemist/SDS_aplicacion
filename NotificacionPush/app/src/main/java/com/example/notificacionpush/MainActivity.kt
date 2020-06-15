@@ -65,7 +65,8 @@ class MainActivity : AppCompatActivity() {
             progresDialog.setCancelable(false)
             progresDialog.show()
 
-            val url ="https://jsonplaceholder.typicode.com/users" + "?username=" + et_usuario.text
+            //val url ="https://jsonplaceholder.typicode.com/users" + "?username=" + et_usuario.text
+            val url ="https://jsonplaceholder.typicode.com/users" + "?id=" + 1
             AsyncTaskHandleJson().execute(url)
 
         }

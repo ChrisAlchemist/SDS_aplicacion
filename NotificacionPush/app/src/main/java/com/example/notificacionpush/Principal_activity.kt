@@ -11,19 +11,16 @@ import android.graphics.Color
 import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.annotation.NonNull
 import android.support.annotation.RequiresApi
-import android.support.design.internal.BottomNavigationItemView
-import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.FragmentTransaction
-import android.support.v7.view.menu.MenuItemImpl
 import android.widget.RemoteViews
-import kotlinx.android.synthetic.main.activity_inicio.*
 import kotlinx.android.synthetic.main.activity_principal_activity.*
 
 class Principal_activity : AppCompatActivity() {
 
-    lateinit var fragmentInicio: InicioFragment
+    lateinit var fragmentUsuarioBuscar: UsuarioBuscarFragment
+    lateinit var fragmentUsuarioInicio: UsuarioInicioFragment
+    lateinit var fragmentUsuarioFavoritos: UsuarioFavoritosFragment
 
     lateinit var notificationManager: NotificationManager
     lateinit var notificationChannel: NotificationChannel
@@ -69,16 +66,48 @@ class Principal_activity : AppCompatActivity() {
 
         var bottomNavigation = bottom_navigation
 
+        fragmentUsuarioInicio = UsuarioInicioFragment()
+
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragment_container1, fragmentUsuarioInicio)
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+            .commit()
+
         bottomNavigation.setOnNavigationItemSelectedListener {menuItem ->
 
             when(menuItem.itemId){
                 R.id.nav_search ->{
 
-                    fragmentInicio = InicioFragment()
+                    fragmentUsuarioBuscar = UsuarioBuscarFragment()
 
                     supportFragmentManager
                         .beginTransaction()
-                        .replace(R.id.fragment_container1, fragmentInicio)
+                        .replace(R.id.fragment_container1, fragmentUsuarioBuscar)
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .commit()
+
+                }
+
+                R.id.nav_home ->{
+
+                    fragmentUsuarioInicio = UsuarioInicioFragment()
+
+                    supportFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.fragment_container1, fragmentUsuarioInicio)
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .commit()
+
+                }
+
+                R.id.nav_favorites ->{
+
+                    fragmentUsuarioFavoritos = UsuarioFavoritosFragment()
+
+                    supportFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.fragment_container1, fragmentUsuarioFavoritos)
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                         .commit()
 

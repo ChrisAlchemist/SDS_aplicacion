@@ -20,7 +20,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 
-class InicioFragment : Fragment() {
+class UsuarioBuscarFragment : Fragment() {
     var thiscontext: Context? = null
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,7 +31,7 @@ class InicioFragment : Fragment() {
             thiscontext= container.context
         }
 
-        return inflater.inflate(R.layout.fragment_inicio, container, false)
+        return inflater.inflate(R.layout._fragment_inicio, container, false)
     }
     var url =""
 
